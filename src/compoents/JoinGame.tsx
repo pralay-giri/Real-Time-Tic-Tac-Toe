@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { generateId } from '../../../BackEnd/src/utils/generateRoomId';
+import { generateId } from '../utils/generateRoomId';
 import socket from '../socketConfig/io';
 
 const JoinGame = () => {
