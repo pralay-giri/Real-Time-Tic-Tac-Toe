@@ -1,8 +1,8 @@
 import { FaUserFriends } from 'react-icons/fa';
 import { FaComputer } from 'react-icons/fa6';
 import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
-import { generateId } from '../../../BackEnd/src/utils/generateRoomId';
 import { useEffect } from 'react';
+import { generateId } from '../utils/generateRoomId';
 
 const HomePage = () => {
     const navigator: NavigateFunction = useNavigate();
