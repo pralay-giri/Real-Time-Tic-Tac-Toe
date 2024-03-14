@@ -1,7 +1,7 @@
 import io, { Socket } from 'socket.io-client';
-const endPoint: string = import.meta.env.VITE_BACK_END_API;
+import { BACK_END_API } from '../utils/constants';
 
-const socket: Socket = io(endPoint, {
+const socket: Socket = io(BACK_END_API, {
     withCredentials: true,
 });
 
