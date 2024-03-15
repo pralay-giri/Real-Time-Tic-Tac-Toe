@@ -27,7 +27,7 @@ const HomePage = () => {
     };
 
     return (
-        <div className="flex gap-5 mt-20 flex-col items-center justify-center *:w-3/12 *:text-xl *:text-black *:border-none *:border *:py-3 *:px-2 *:rounded-md *:bg-blue-400 *:flex *:items-center *:justify-evenly">
+        <div className="flex gap-5 mt-20 flex-col items-center justify-center *:w-3/12 *:text-xl max-sm:*:text-lg *:text-black *:border-none *:border *:py-3 *:px-2 *:rounded-md *:bg-blue-400 *:flex *:items-center *:justify-evenly max-md:*:w-10/12 *:break-words">
             <button className="hover:bg-opacity-85" onClick={handleFriendGame}>
                 play with frend <FaUserFriends />
             </button>

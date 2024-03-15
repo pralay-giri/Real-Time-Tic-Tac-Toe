@@ -76,12 +76,7 @@ const GamePage = () => {
             setBord(updatedGame.gameBord);
             setIsGameStatusModalVisible(true);
             localStorage.setItem('gameData', JSON.stringify(updatedGame));
-            console.log(updatedGame.winner, playerInfo?.turn);
-            if (updatedGame.winner === playerInfo?.turn) {
-                setModalMessage('You won the game');
-            } else {
-                setModalMessage('You loose the game');
-            }
+            setModalMessage(`${updatedGame.winner} won the game`);
         });
 
         return () => {
@@ -189,7 +184,7 @@ const GamePage = () => {
     };
 
     return (
-        <div className="bord">
+        <div className="bord text-white">
             <div className="header flex items-center justify-evenly gap-10">
                 {Array.from([playerInfo, oponentInfo]).map((player) => {
                     return (
@@ -197,20 +192,20 @@ const GamePage = () => {
                             key={player?.playerName}
                             className="flex items-center"
                         >
-                            <div className="w-20">
+                            <div className="w-20 max-sm:w-14">
                                 <img
                                     src="/profile.png"
                                     alt="profile"
                                     className="w-full"
                                 />
                             </div>
-                            <div className="">
-                                <h1 className="text-xl">
+                            <div className="text-white">
+                                <h1 className="text-xl max-sm:text-sm">
                                     {player?.playerName === userName
                                         ? 'You'
                                         : player?.playerName}
                                 </h1>
-                                <div className="flex gap-2">
+                                <div className="flex gap-2 max-sm:text-sm">
                                     <p>turn: {player?.turn}</p>
                                 </div>
                             </div>
@@ -218,13 +213,18 @@ const GamePage = () => {
                     );
                 })}
             </div>
-            <div className="my-20 mx-auto game-bord border w-fit *:flex *:flex-row *:*:flex  *:*:items-center *:*:justify-center *:*:cursor-pointer *:*:w-28 *:*:aspect-square *:*:text-4xl *:*:border">
+            <h1 className="text-center my-5">
+                {gameInfo.lastTurn === playerInfo?.turn
+                    ? 'your turn'
+                    : 'oponent turn'}
+            </h1>
+            <div className="my-20 mx-auto game-bord border w-fit *:flex *:flex-row *:*:flex  *:*:items-center *:*:justify-center *:*:cursor-pointer *:*:w-28 max-sm:*:*:w-20 *:*:aspect-square *:*:text-4xl *:*:border">
                 <div className="row row-1">
                     {bord.slice(0, 3).map((box: any): ReactNode => {
                         return (
                             <div
                                 key={countRef++}
-                                className="box"
+                                className="box text-white"
                                 data-index={countRef}
                                 onClick={handleMove}
                             >
@@ -238,7 +238,7 @@ const GamePage = () => {
                         return (
                             <div
                                 key={countRef++}
-                                className="box"
+                                className="box text-white"
                                 data-index={countRef}
                                 onClick={handleMove}
                             >
@@ -252,7 +252,7 @@ const GamePage = () => {
                         return (
                             <div
                                 key={countRef++}
-                                className="box"
+                                className="box text-white"
                                 data-index={countRef}
                                 onClick={handleMove}
                             >
@@ -264,9 +264,11 @@ const GamePage = () => {
             </div>
             {isGameStatusModalVisible && (
                 <div className="absolute inset-0 bg-[rgba(255, 255, 255, 0.5)] backdrop-blur-md  flex flex-col items-center justify-center">
-                    <div className="w-3/12 aspect-square border text-center  flex flex-col rounded-lg overflow-hidden">
-                        <p className="message text-2xl p-5 h-[100%] flex items-center justify-center">
-                            {modalMessage}
+                    <div className="w-auto aspect-square border text-center  flex flex-col rounded-lg overflow-hidden">
+                        <p className="message text-2xl max-sm:text-lg p-5 h-[100%] flex items-center justify-center">
+                            {gameInfo.winner === playerInfo?.turn
+                                ? 'You won the game'
+                                : 'You loose the game'}
                         </p>
                         <div className="flex *:w-6/12 *:border h-[20%] rounded-lg *:flex *:items-center *:justify-center *:gap-2 *:transition-all">
                             <button
@@ -293,8 +295,8 @@ const GamePage = () => {
             )}
             {isPlayAgainRequestVisible && (
                 <div className="absolute inset-0 bg-[rgba(255, 255, 255, 0.5)] backdrop-blur-md  flex flex-col items-center justify-center">
-                    <div className="w-3/12 aspect-square border text-center  flex flex-col rounded-lg overflow-hidden">
-                        <p className="message text-2xl p-5 h-[100%] flex items-center justify-center">
+                    <div className="w-auto aspect-square border text-center  flex flex-col rounded-lg overflow-hidden">
+                        <p className="message text-2xl max-sm:text-lg p-5 h-[100%] flex items-center justify-center">
                             {oponentInfo?.playerName} want to play again
                         </p>
                         <div className="flex *:w-6/12 *:border h-[20%] rounded-lg *:flex *:items-center *:justify-center *:gap-2 *:transition-all">

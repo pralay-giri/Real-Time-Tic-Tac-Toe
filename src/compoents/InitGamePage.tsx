@@ -2,12 +2,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { IoCopy } from 'react-icons/io5';
 import { useEffect, useState } from 'react';
 import socket from '../socketConfig/io';
+import { LiaCheckDoubleSolid } from 'react-icons/lia';
 
 const InitGamePage = () => {
     const { roomId } = useParams();
     const navigator = useNavigate();
     const { href } = window.location;
     const [isLoadingQrCode, setIsLoadingQrCode] = useState<boolean>(true);
+    const [isCopyed, setIsCopyed] = useState<boolean>(false);
     const [isGameCreated, setIsGameCreated] = useState<boolean>(false);
     const [confirmationId, setConfirmationId] = useState<string>('');
 
@@ -77,7 +79,14 @@ const InitGamePage = () => {
         );
     }
 
+    if (!confirmationId) {
+        document.documentElement.style.overflow = 'hidden';
+    } else {
+        document.documentElement.style.overflow = 'auto';
+    }
+
     const handleCopy = () => {
+        setIsCopyed(true);
         if (window.navigator.clipboard) {
             window.navigator.clipboard.writeText(href + `/${confirmationId}`);
         }
@@ -86,30 +95,41 @@ const InitGamePage = () => {
     return (
         <div className="mt-10 flex flex-col gap-5 items-center justify-center">
             <button
-                className="w-auto flex items-center justify-between py-3 px-5 rounded-lg text-black border-none text-xl bg-blue-400  hover:bg-opacity-85 focus-visible:bg-opacity-85 transition-all gap-2"
+                className="w-auto max-md:w-10/12 flex items-center justify-between py-3 px-5 rounded-lg text-black border-none text-xl bg-blue-400  hover:bg-opacity-85 focus-visible:bg-opacity-85 transition-all gap-2 max-sm:text-sm"
                 onClick={handleCopy}
             >
-                <span>{href + `/${confirmationId}`}</span>
-                <IoCopy />
+                <span className="w-10/12 overflow-hidden text-ellipsis">
+                    {href + `/${confirmationId}`}
+                </span>
+                {isCopyed ? <LiaCheckDoubleSolid /> : <IoCopy />}
             </button>
-            <div className="qr w-2/12">
-                <img
-                    src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${href + `/${confirmationId}`}`}
-                    alt="QR"
-                    className="w-full aspect-square"
-                    onLoad={() => {
-                        setIsLoadingQrCode(false);
-                    }}
-                />
+            <div className="qr w-60">
+                {confirmationId && (
+                    <img
+                        src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${href + `/${confirmationId}`}`}
+                        alt="QR"
+                        className="w-full"
+                        onLoad={() => {
+                            setIsLoadingQrCode(false);
+                        }}
+                    />
+                )}
                 {isLoadingQrCode && (
                     <p className="animate-pulse">loadding qr...</p>
                 )}
             </div>
-            <h1 className="w-4/12 py-3 px-5 rounded-lg text-black border-none text-xl bg-blue-400  transition-all cursor-pointer">
-                share this link to your friend or scan this QR code
+            <h1 className="w-auto max-md:w-10/12 flex items-center justify-between py-3 px-5 rounded-lg text-black border-none text-xl bg-blue-400  hover:bg-opacity-85 focus-visible:bg-opacity-85 transition-all gap-2 max-sm:text-sm">
+                scann the QR code to play or shear the link
             </h1>
             {isGameCreated && (
                 <p className="animate-pulse">waiting for your oponent...</p>
+            )}
+            {!confirmationId && (
+                <div className="absolute inset-0 bg-[rgba(255, 255, 255, 0.6)] backdrop-blur-lg">
+                    <div className="flex h-full items-center justify-center">
+                        <p className="text-xl">loadding...</p>
+                    </div>
+                </div>
             )}
         </div>
     );
