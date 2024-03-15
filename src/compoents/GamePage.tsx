@@ -18,6 +18,7 @@ const GamePage = () => {
         useState<boolean>(false);
     const [isPlayAgainRequestVisible, setIsPlayAgainRequestVisible] =
         useState<boolean>(false);
+    // @ts-ignore
     const [modalMessage, setModalMessage] = useState<string>('');
     const userName = localStorage.getItem('userName');
 
